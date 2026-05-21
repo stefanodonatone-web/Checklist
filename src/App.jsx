@@ -83,7 +83,7 @@ function App() {
   const [fotoBlobList, setFotoBlobList] = useState([]);
   const [fotoPreviewList, setFotoPreviewList] = useState([]);
   const [riferimento, setRiferimento] = useState("");
-  const [criticitaSelezionate, setCriticitaSelezionate] = useState([]);
+  const [criticitaSelezionata, setCriticitaSelezionata] = useState("");
   const [nota, setNota] = useState("");
 
   const [datiCondominio, setDatiCondominio] = useState(() => {
@@ -301,22 +301,23 @@ function App() {
 
   function apriAmbiente(ambiente) {
     setAmbienteSelezionato(ambiente);
+    pulisciFormRilievo();
+  }
+
+  function pulisciFormRilievo() {
     setFotoBlobList([]);
     setFotoPreviewList([]);
     setRiferimento("");
-    setCriticitaSelezionate([]);
+    setCriticitaSelezionata("");
     setNota("");
   }
 
-  function selezionaCriticita(item) {
-    if (criticitaSelezionate.includes(item)) {
-      setCriticitaSelezionate(criticitaSelezionate.filter((c) => c !== item));
-    } else {
-      setCriticitaSelezionate([...criticitaSelezionate, item]);
-    }
-  }
-
   async function salvaRilievo() {
+    if (!criticitaSelezionata) {
+      alert("Seleziona una criticità prima di salvare.");
+      return;
+    }
+
     const fotoIds = [];
 
     for (const blob of fotoBlobList) {
@@ -328,7 +329,7 @@ function App() {
       ambiente: ambienteSelezionato,
       ambientePdf: nomePulito(ambienteSelezionato),
       riferimento,
-      criticita: criticitaSelezionate,
+      criticita: criticitaSelezionata,
       nota,
       fotoIds,
       dataOra: new Date().toLocaleString("it-IT"),
@@ -337,12 +338,7 @@ function App() {
     setRilievi([...rilievi, nuovoRilievo]);
     alert("Rilievo salvato!");
 
-    setAmbienteSelezionato(null);
-    setFotoBlobList([]);
-    setFotoPreviewList([]);
-    setRiferimento("");
-    setCriticitaSelezionate([]);
-    setNota("");
+    pulisciFormRilievo();
   }
 
   function esportaPDF() {
@@ -477,10 +473,39 @@ function App() {
     return (
       <div style={styles.container}>
         <button style={styles.backButton} onClick={() => setAmbienteSelezionato(null)}>
-          ← Indietro
+          ← Home
         </button>
 
         <h1 style={{ textAlign: "center" }}>{ambienteSelezionato}</h1>
+
+        <input
+          style={styles.input}
+          placeholder="Riferimento / posizione es. Scala C, Piano -1..."
+          value={riferimento}
+          onChange={(e) => setRiferimento(e.target.value)}
+        />
+
+        <h2>Criticità</h2>
+
+        {criticitaRapide.map((item) => {
+          const selezionata = criticitaSelezionata === item;
+
+          return (
+            <button
+              key={item}
+              style={{
+                ...styles.warningButton,
+                backgroundColor: selezionata ? "#d32f2f" : "#eeeeee",
+                color: selezionata ? "white" : "black",
+                fontWeight: selezionata ? "bold" : "normal",
+              }}
+              onClick={() => setCriticitaSelezionata(item)}
+            >
+              {selezionata ? "✓ " : ""}
+              {item}
+            </button>
+          );
+        })}
 
         <label style={styles.bigButton}>
           📷 Aggiungi foto
@@ -512,13 +537,6 @@ function App() {
 
         <p style={styles.counterText}>Foto selezionate: {fotoPreviewList.length}</p>
 
-        <input
-          style={styles.input}
-          placeholder="Riferimento / posizione es. Scala C, Piano -1..."
-          value={riferimento}
-          onChange={(e) => setRiferimento(e.target.value)}
-        />
-
         <textarea
           style={styles.textarea}
           placeholder="Nota..."
@@ -526,30 +544,16 @@ function App() {
           onChange={(e) => setNota(e.target.value)}
         />
 
-        <h2>Criticità rapide</h2>
-
-        {criticitaRapide.map((item) => {
-          const selezionata = criticitaSelezionate.includes(item);
-
-          return (
-            <button
-              key={item}
-              style={{
-                ...styles.warningButton,
-                backgroundColor: selezionata ? "#d32f2f" : "#eeeeee",
-                color: selezionata ? "white" : "black",
-                fontWeight: selezionata ? "bold" : "normal",
-              }}
-              onClick={() => selezionaCriticita(item)}
-            >
-              {selezionata ? "✓ " : ""}
-              {item}
-            </button>
-          );
-        })}
-
         <button style={styles.saveButton} onClick={salvaRilievo}>
-          💾 Salva rilievo
+          💾 Salva rilievo e resta qui
+        </button>
+
+        <button style={styles.secondaryButton} onClick={pulisciFormRilievo}>
+          ➕ Nuova criticità nello stesso ambiente
+        </button>
+
+        <button style={styles.backButton} onClick={() => setAmbienteSelezionato(null)}>
+          ← Torna alla Home
         </button>
       </div>
     );
@@ -696,9 +700,12 @@ const styles = {
     fontWeight: "bold",
   },
   backButton: {
-    padding: "12px",
-    fontSize: "18px",
-    marginBottom: "20px",
+    width: "100%",
+    padding: "14px",
+    fontSize: "17px",
+    borderRadius: "12px",
+    border: "none",
+    marginBottom: "15px",
   },
   bigButton: {
     display: "block",
@@ -711,6 +718,7 @@ const styles = {
     backgroundColor: "#43a047",
     color: "white",
     fontWeight: "bold",
+    marginTop: "20px",
     marginBottom: "15px",
     cursor: "pointer",
   },
@@ -778,6 +786,18 @@ const styles = {
     color: "white",
     fontWeight: "bold",
     marginTop: "20px",
+  },
+  secondaryButton: {
+    width: "100%",
+    padding: "18px",
+    fontSize: "18px",
+    borderRadius: "15px",
+    border: "none",
+    backgroundColor: "#607d8b",
+    color: "white",
+    fontWeight: "bold",
+    marginTop: "15px",
+    marginBottom: "15px",
   },
   pdfButton: {
     width: "100%",
