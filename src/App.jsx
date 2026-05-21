@@ -544,7 +544,19 @@ function App() {
       doc.text(nomePulito(ambiente).toUpperCase(), 20, y);
       y += 9;
 
-      rilieviAmbiente.forEach((rilievo) => {
+      const rilieviAmbienteOrdinati = [...rilieviAmbiente].sort((a, b) => {
+  const ordineCriticita = criticitaPerAmbiente[ambiente] || [];
+
+  const indiceA = ordineCriticita.indexOf(testoCriticita(a));
+  const indiceB = ordineCriticita.indexOf(testoCriticita(b));
+
+  const ordineA = indiceA === -1 ? 9999 : indiceA;
+  const ordineB = indiceB === -1 ? 9999 : indiceB;
+
+  return ordineA - ordineB;
+});
+
+rilieviAmbienteOrdinati.forEach((rilievo) => {
         if (y > 260) {
           doc.addPage();
           y = 20;
