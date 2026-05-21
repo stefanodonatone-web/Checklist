@@ -640,6 +640,13 @@ function App() {
           ← Home
         </button>
 
+        <button
+          style={styles.stickyHomeButton}
+          onClick={() => setAmbienteSelezionato(null)}
+        >
+          🏠 Home
+        </button>
+
         <h1 style={{ textAlign: "center" }}>{ambienteSelezionato}</h1>
 
         <input
@@ -949,6 +956,20 @@ const styles = {
     color: "white",
     fontWeight: "bold",
     marginBottom: "15px",
+  },
+  stickyHomeButton: {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    zIndex: 9999,
+    padding: "14px 18px",
+    fontSize: "16px",
+    borderRadius: "999px",
+    border: "none",
+    backgroundColor: "#1e88e5",
+    color: "white",
+    fontWeight: "bold",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
   },
   resetButton: {
     width: "100%",
