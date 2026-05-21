@@ -772,7 +772,7 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1 style={{ textAlign: "center" }}>Checklist Sopralluogo TEST</h1>
+      <h1 style={{ textAlign: "center" }}>CHECKLIST TEST MODIFICATA</h1>
 
       <div style={styles.card}>
         <h2>Dati Condominio</h2>
