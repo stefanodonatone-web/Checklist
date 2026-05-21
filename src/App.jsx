@@ -103,6 +103,7 @@ function App() {
   const [riferimento, setRiferimento] = useState("");
   const [criticitaSelezionata, setCriticitaSelezionata] = useState("");
   const [nota, setNota] = useState("");
+  const [showDati, setShowDati] = useState(true);
 
   const [datiCondominio, setDatiCondominio] = useState(() => {
     try {
@@ -775,7 +776,14 @@ function App() {
       <h1 style={{ textAlign: "center" }}>CHECKLIST TEST MODIFICATA</h1>
 
       <div style={styles.card}>
-        <h2>Dati Condominio</h2>
+  <h2
+    style={{ cursor: "pointer" }}
+    onClick={() => setShowDati(!showDati)}
+  >
+    {showDati ? "▼" : "▶"} Dati Condominio
+  </h2>
+  {showDati && (
+    <>
 
         <input style={styles.input} placeholder="Indirizzo" value={datiCondominio.indirizzo} onChange={(e) => setDatiCondominio({ ...datiCondominio, indirizzo: e.target.value })} />
         <input style={styles.input} placeholder="Anno costruzione" value={datiCondominio.anno} onChange={(e) => setDatiCondominio({ ...datiCondominio, anno: e.target.value })} />
@@ -791,6 +799,8 @@ function App() {
             {p.label}
           </label>
         ))}
+          </>
+)}
       </div>
 
       <div
