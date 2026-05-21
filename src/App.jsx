@@ -27,6 +27,24 @@ const PRESENZE = [
   { key: "centraleTermica", label: "Centrale termica" },
 ];
 
+const AMBIENTI_ORDINE_GESTIONALE = [
+  "🏠 Terrazza condominiale",
+  "🧺 Locale lavatoio",
+  "🏚️ Soffitte",
+  "🪟 Finestre condominiali",
+  "🏢 Vano scala condominiale",
+  "🛗 Impianto ascensore",
+  "⚡ Contatori elettrici",
+  "🧰 Cantine",
+  "🏙️ Chiostrina condominiale",
+  "🚗 Autorimessa",
+  "🧱 Fabbricato esterno",
+  "🔥 Caldaia condominiale",
+  "🧯 Dispositivi e impianti antincendio",
+  "☣️ Amianto",
+  "👷 Dipendente condominiale",
+];
+
 function apriDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, 1);
@@ -114,21 +132,64 @@ function App() {
     localStorage.setItem("rilieviSopralluogo", JSON.stringify(rilievi));
   }, [rilievi]);
 
-  const ambienti = [
-    "🏢 Vano Scala",
-    "🏠 Terrazza",
-    "🚗 Autorimessa",
-    "🛗 Ascensore",
-    "⚡ Contatori",
-    "🔥 Antincendio",
-    "🧱 Fabbricato Esterno",
-    "☣️ Amianto",
-    "🧰 Cantine",
-    "🏢 Portineria",
-  ];
+  const ambienti = AMBIENTI_ORDINE_GESTIONALE;
 
   const criticitaPerAmbiente = {
-    "🏢 Vano Scala": [
+    "🏠 Terrazza condominiale": [
+      "Accesso difficoltoso",
+      "Altezza ridotta/filo altezza uomo",
+      "Antenna divelta a terra",
+      "Antenna pericolante",
+      "Assenza parapetto",
+      "Condizioni malsane",
+      "Crepe",
+      "Degrado intonaco esterno",
+      "Dislivello/gradino non segnalato",
+      "Guano piccioni",
+      "Materiale accatastato",
+      "Parapetto < 1m",
+      "Parapetto scalabile",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniera divelta",
+      "Scala accesso torrino non conforme",
+      "Vasi davanzali",
+      "Altro",
+    ],
+    "🧺 Locale lavatoio": [
+      "Altezza ridotta/filo altezza uomo",
+      "Antenna divelta a terra",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Scatole derivazione aperte",
+      "Altro",
+    ],
+    "🏚️ Soffitte": [
+      "Altezza ridotta/filo altezza uomo",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Scatole derivazione aperte",
+      "Altro",
+    ],
+    "🪟 Finestre condominiali": [
+      "Infissi vetusti/vetri danneggiati",
+      "Parapetto < 1m",
+      "Parapetto scalabile",
+      "Altro",
+    ],
+    "🏢 Vano scala condominiale": [
       "Altezza ridotta/filo altezza uomo",
       "Assenza parapetto",
       "Assenza corrimano",
@@ -145,68 +206,163 @@ function App() {
       "Pavimento scivoloso",
       "Pavimentazione sconnessa",
       "Plafoniere divelte",
-    ],
-    "🏠 Terrazza": [
-      "Parapetto basso",
-      "Antenna pericolante",
-      "Guano piccioni",
-      "Pavimento scivoloso",
       "Altro",
     ],
-    "🚗 Autorimessa": [
-      "Percorsi promiscui",
-      "Estintore assente",
-      "Porta tagliafuoco non funzionante",
-      "Scatole elettriche aperte",
-      "Altro",
-    ],
-    "🛗 Ascensore": [
-      "Dislivello cabina/piano",
+    "🛗 Impianto ascensore": [
       "Assenza cartellonistica",
+      "Dislivello cabina/piano",
+      "Scatola chiave manomessa",
+      "Pulsante sgancio rotto",
       "Illuminazione insufficiente",
+      "Locale macchina non accessibile",
       "Altro",
     ],
-    "⚡ Contatori": [
+    "⚡ Contatori elettrici": [
+      "Assenza cartellonistica",
+      "Assenza segnale rischio elettrico",
+      "Contatori non protetti/non segregati",
       "Quadro elettrico aperto",
       "Scatole derivazione aperte",
       "Materiale combustibile presente",
-      "Assenza segnale rischio elettrico",
       "Altro",
     ],
-    "🔥 Antincendio": [
-      "Estintore assente",
-      "Estintore non revisionato",
+    "🧰 Cantine": [
+      "Altezza ridotta/filo altezza uomo",
+      "Assenza corrimano",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Presenza FAV",
+      "Scatole derivazione aperte",
+      "Altro",
+    ],
+    "🏙️ Chiostrina condominiale": [
+      "Accesso difficoltoso",
+      "Altezza ridotta/filo altezza uomo",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Presenza FAV",
+      "Scatole derivazione aperte",
+      "Vasi davanzali",
+      "Altro",
+    ],
+    "🚗 Autorimessa": [
+      "Altezza ridotta/filo altezza uomo",
+      "Assenza corrimano",
+      "Assenza cartellonistica",
+      "Assenza protezione",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Infissi vetusti/vetri danneggiati",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Percorsi promiscui auto/pedoni",
+      "Presenza FAV",
+      "Pulsante sgancio/cartellonistica",
+      "Scala danneggiata",
+      "Scatole derivazione aperte",
+      "Altro",
+    ],
+    "🧱 Fabbricato esterno": [
+      "Cantiere presente",
+      "Cedimento muro di sostegno",
+      "Crepe su pareti",
+      "Degrado intonaco esterno",
+      "Elementi pericolanti",
+      "Messa in sicurezza assente",
+      "Vasi su davanzale",
+      "Altro",
+    ],
+    "🔥 Caldaia condominiale": [
+      "Assenza corrimano",
+      "Altezza ridotta/filo altezza uomo",
+      "Cartello valvola e interruttore generale",
+      "Condizioni malsane",
+      "Crepe",
+      "Dislivello/gradino non segnalato",
+      "Infiltrazioni/distacco intonaco",
+      "Materiale accatastato",
+      "Pavimento scivoloso",
+      "Pavimentazione sconnessa",
+      "Plafoniere divelte",
+      "Presenza FAV",
+      "Scatole derivazione aperte",
+      "Tubazione gas gialla",
+      "Altro",
+    ],
+    "🧯 Dispositivi e impianti antincendio": [
+      "Assenza estintore",
+      "Manutenzione scaduta",
       "Porta tagliafuoco non funzionante",
+      "Scarsa visibilità",
+      "Tubazione idrante rossa",
       "Idrante non accessibile",
       "Assenza cartellonistica",
       "Altro",
     ],
-    "🧱 Fabbricato Esterno": [
-      "Crepe su pareti",
-      "Degrado intonaco esterno",
-      "Elementi pericolanti",
-      "Cedimento muro",
-      "Vasi su davanzale",
-      "Altro",
-    ],
     "☣️ Amianto": [
-      "Presunta presenza amianto",
+      "Presunta presenza di amianto",
+      "Presenza certificata di amianto",
       "Materiale deteriorato",
       "Necessaria verifica documentale",
       "Altro",
     ],
-    "🧰 Cantine": [
-      "Condizioni malsane",
-      "Pavimento scivoloso",
-      "Materiale accatastato",
-      "Presenza FAV",
-      "Altro",
-    ],
-    "🏢 Portineria": [
+    "👷 Dipendente condominiale": [
+      "Residente in condominio",
+      "Mansioni svolte",
+      "Vigilanza",
+      "Pulizie aree comuni",
+      "Smistamento posta",
+      "Piccole riparazioni",
+      "Giardinaggio",
+      "Vigilanza notturna",
+      "Formazione scaduta",
+      "Formazione sicurezza",
+      "Addetto antincendio",
+      "Addetto primo soccorso",
+      "Manovra a mano ascensore",
+      "Portineria",
       "Mancanza servizi igienici",
-      "Postazione non ergonomica",
+      "Necessità sedia ergonomica",
+      "Condizioni malsane",
+      "Rischio elettrico/cavi a terra/prolunghe",
+      "Necessità condizionatore",
+      "Riscaldamento",
       "Assenza estintore",
-      "DPI mancanti",
+      "Assenza cassetta di sicurezza",
+      "Cassetta sicurezza scaduta",
+      "Paletta pavimento bagnato",
+      "Scala da lavoro conforme",
+      "Attrezzatura pulizia",
+      "Tagliaerba",
+      "Decespugliatore",
+      "Soffiatore",
+      "Detergenti/candeggina/ammoniaca",
+      "Acidi e solventi",
+      "Prodotti non stoccati correttamente",
+      "Vernici",
+      "Benzina",
+      "Guanti protezione mani",
+      "Occhiali/paraschegge",
+      "Mascherine polvere",
+      "Facciale filtrante",
+      "Manca scarpa antinfortunistica",
+      "Tuta da lavoro",
       "Altro",
     ],
   };
@@ -290,7 +446,6 @@ function App() {
 
     setFotoBlobList([...fotoBlobList, ...nuoviBlob]);
     setFotoPreviewList([...fotoPreviewList, ...nuovePreview]);
-
     event.target.value = "";
   }
 
@@ -299,17 +454,17 @@ function App() {
     setFotoPreviewList(fotoPreviewList.filter((_, index) => index !== indexDaEliminare));
   }
 
-  function apriAmbiente(ambiente) {
-    setAmbienteSelezionato(ambiente);
-    pulisciFormRilievo();
-  }
-
   function pulisciFormRilievo() {
     setFotoBlobList([]);
     setFotoPreviewList([]);
     setRiferimento("");
     setCriticitaSelezionata("");
     setNota("");
+  }
+
+  function apriAmbiente(ambiente) {
+    setAmbienteSelezionato(ambiente);
+    pulisciFormRilievo();
   }
 
   async function salvaRilievo() {
@@ -337,7 +492,6 @@ function App() {
 
     setRilievi([...rilievi, nuovoRilievo]);
     alert("Rilievo salvato!");
-
     pulisciFormRilievo();
   }
 
@@ -373,37 +527,47 @@ function App() {
     y += 20;
 
     doc.setFontSize(14);
-    doc.text("RILIEVI", 20, y);
-    y += 10;
+    doc.text("RILIEVI IN ORDINE CHECKLIST GESTIONALE", 20, y);
+    y += 12;
 
-    rilievi.forEach((rilievo, index) => {
-      if (y > 260) {
+    AMBIENTI_ORDINE_GESTIONALE.forEach((ambiente) => {
+      const rilieviAmbiente = rilievi.filter((r) => r.ambiente === ambiente);
+
+      if (rilieviAmbiente.length === 0) return;
+
+      if (y > 250) {
         doc.addPage();
         y = 20;
       }
 
-      doc.setFontSize(12);
-      doc.text(`${index + 1}. ${rilievo.ambientePdf || nomePulito(rilievo.ambiente)}`, 20, y);
-      y += 8;
+      doc.setFontSize(13);
+      doc.text(nomePulito(ambiente).toUpperCase(), 20, y);
+      y += 9;
 
-      doc.setFontSize(10);
-      doc.text(`Riferimento: ${rilievo.riferimento || "-"}`, 20, y);
-      y += 7;
+      rilieviAmbiente.forEach((rilievo) => {
+        if (y > 260) {
+          doc.addPage();
+          y = 20;
+        }
 
-      const crit = doc.splitTextToSize(`Criticita: ${testoCriticita(rilievo)}`, 170);
-      doc.text(crit, 20, y);
-      y += crit.length * 6;
+        doc.setFontSize(10);
 
-      const notaPdf = doc.splitTextToSize(`Nota: ${rilievo.nota || "-"}`, 170);
-      doc.text(notaPdf, 20, y);
-      y += notaPdf.length * 6;
+        const crit = doc.splitTextToSize(`- ${testoCriticita(rilievo)}`, 170);
+        doc.text(crit, 25, y);
+        y += crit.length * 6;
 
-      const numeroFoto = getFotoIds(rilievo).length;
-      doc.text(`Foto: ${numeroFoto}`, 20, y);
-      y += 7;
+        doc.text(`Rif: ${rilievo.riferimento || "-"}`, 30, y);
+        y += 6;
 
-      doc.text(`Data/Ora: ${rilievo.dataOra}`, 20, y);
-      y += 14;
+        const notaPdf = doc.splitTextToSize(`Nota: ${rilievo.nota || "-"}`, 160);
+        doc.text(notaPdf, 30, y);
+        y += notaPdf.length * 5;
+
+        doc.text(`Foto: ${getFotoIds(rilievo).length}`, 30, y);
+        y += 10;
+      });
+
+      y += 6;
     });
 
     doc.save("checklist-condominio.pdf");
@@ -524,10 +688,7 @@ function App() {
             {fotoPreviewList.map((src, index) => (
               <div key={index} style={styles.photoBox}>
                 <img src={src} alt={`Foto ${index + 1}`} style={styles.previewSmall} />
-                <button
-                  style={styles.removePhotoButton}
-                  onClick={() => eliminaFotoTemporanea(index)}
-                >
+                <button style={styles.removePhotoButton} onClick={() => eliminaFotoTemporanea(index)}>
                   Elimina foto
                 </button>
               </div>
@@ -562,55 +723,17 @@ function App() {
       <div style={styles.card}>
         <h2>Dati Condominio</h2>
 
-        <input
-          style={styles.input}
-          placeholder="Indirizzo"
-          value={datiCondominio.indirizzo}
-          onChange={(e) => setDatiCondominio({ ...datiCondominio, indirizzo: e.target.value })}
-        />
-
-        <input
-          style={styles.input}
-          placeholder="Anno costruzione"
-          value={datiCondominio.anno}
-          onChange={(e) => setDatiCondominio({ ...datiCondominio, anno: e.target.value })}
-        />
-
-        <input
-          style={styles.input}
-          placeholder="Corpi fabbrica"
-          value={datiCondominio.corpiFabbrica}
-          onChange={(e) => setDatiCondominio({ ...datiCondominio, corpiFabbrica: e.target.value })}
-        />
-
-        <input
-          style={styles.input}
-          placeholder="Vani scala"
-          value={datiCondominio.vaniScala}
-          onChange={(e) => setDatiCondominio({ ...datiCondominio, vaniScala: e.target.value })}
-        />
-
-        <input
-          style={styles.input}
-          placeholder="Unità immobiliari"
-          value={datiCondominio.unitaImmobiliari}
-          onChange={(e) => setDatiCondominio({ ...datiCondominio, unitaImmobiliari: e.target.value })}
-        />
+        <input style={styles.input} placeholder="Indirizzo" value={datiCondominio.indirizzo} onChange={(e) => setDatiCondominio({ ...datiCondominio, indirizzo: e.target.value })} />
+        <input style={styles.input} placeholder="Anno costruzione" value={datiCondominio.anno} onChange={(e) => setDatiCondominio({ ...datiCondominio, anno: e.target.value })} />
+        <input style={styles.input} placeholder="Corpi fabbrica" value={datiCondominio.corpiFabbrica} onChange={(e) => setDatiCondominio({ ...datiCondominio, corpiFabbrica: e.target.value })} />
+        <input style={styles.input} placeholder="Vani scala" value={datiCondominio.vaniScala} onChange={(e) => setDatiCondominio({ ...datiCondominio, vaniScala: e.target.value })} />
+        <input style={styles.input} placeholder="Unità immobiliari" value={datiCondominio.unitaImmobiliari} onChange={(e) => setDatiCondominio({ ...datiCondominio, unitaImmobiliari: e.target.value })} />
 
         <h3>Presenze</h3>
 
         {PRESENZE.map((p) => (
           <label key={p.key} style={styles.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={datiCondominio[p.key] === true}
-              onChange={(e) =>
-                setDatiCondominio({
-                  ...datiCondominio,
-                  [p.key]: e.target.checked,
-                })
-              }
-            />
+            <input type="checkbox" checked={datiCondominio[p.key] === true} onChange={(e) => setDatiCondominio({ ...datiCondominio, [p.key]: e.target.checked })} />
             {p.label}
           </label>
         ))}
@@ -782,18 +905,6 @@ const styles = {
     color: "white",
     fontWeight: "bold",
     marginTop: "20px",
-  },
-  secondaryButton: {
-    width: "100%",
-    padding: "18px",
-    fontSize: "18px",
-    borderRadius: "15px",
-    border: "none",
-    backgroundColor: "#607d8b",
-    color: "white",
-    fontWeight: "bold",
-    marginTop: "15px",
-    marginBottom: "15px",
   },
   pdfButton: {
     width: "100%",
