@@ -853,7 +853,7 @@ function App() {
 
 const styles = {
   container: {
-    padding: "20px",
+    padding: "10px",
     fontFamily: "Arial",
     backgroundColor: "#f5f5f5",
     minHeight: "100vh",
@@ -864,8 +864,8 @@ const styles = {
   marginTop: "25px",
 },
   environmentButton: {
-  padding: "18px 10px",
-  fontSize: "18px",
+  padding: "14px 8px",
+  fontSize: "15px",
     borderRadius: "15px",
     border: "none",
     backgroundColor: "#1e88e5",
