@@ -545,11 +545,7 @@ function App() {
         />
 
         <button style={styles.saveButton} onClick={salvaRilievo}>
-          💾 Salva rilievo e resta qui
-        </button>
-
-        <button style={styles.secondaryButton} onClick={salvaRilievo}
->         💾 Salva e nuova criticità
+          💾 Salva criticità
         </button>
 
         <button style={styles.backButton} onClick={() => setAmbienteSelezionato(null)}>
