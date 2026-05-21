@@ -652,13 +652,6 @@ rilieviAmbienteOrdinati.forEach((rilievo) => {
           ← Home
         </button>
 
-        <button
-          style={styles.stickyHomeButton}
-          onClick={() => setAmbienteSelezionato(null)}
-        >
-          🏠 Home
-        </button>
-
         <h1 style={{ textAlign: "center" }}>{ambienteSelezionato}</h1>
 
         <input
