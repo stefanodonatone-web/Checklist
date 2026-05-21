@@ -545,18 +545,18 @@ function App() {
       y += 9;
 
       const rilieviAmbienteOrdinati = [...rilieviAmbiente].sort((a, b) => {
-  const ordineCriticita = criticitaPerAmbiente[ambiente] || [];
+        const ordineCriticita = criticitaPerAmbiente[ambiente] || [];
 
-  const indiceA = ordineCriticita.indexOf(testoCriticita(a));
-  const indiceB = ordineCriticita.indexOf(testoCriticita(b));
+        const indiceA = ordineCriticita.indexOf(testoCriticita(a));
+        const indiceB = ordineCriticita.indexOf(testoCriticita(b));
 
-  const ordineA = indiceA === -1 ? 9999 : indiceA;
-  const ordineB = indiceB === -1 ? 9999 : indiceB;
+        const ordineA = indiceA === -1 ? 9999 : indiceA;
+        const ordineB = indiceB === -1 ? 9999 : indiceB;
 
-  return ordineA - ordineB;
-});
+        return ordineA - ordineB;
+      });
 
-rilieviAmbienteOrdinati.forEach((rilievo) => {
+      rilieviAmbienteOrdinati.forEach((rilievo) => {
         if (y > 260) {
           doc.addPage();
           y = 20;
@@ -675,7 +675,13 @@ rilieviAmbienteOrdinati.forEach((rilievo) => {
                 color: selezionata ? "white" : "black",
                 fontWeight: selezionata ? "bold" : "normal",
               }}
-              onClick={() => setCriticitaSelezionata(item)}
+              onClick={() => {
+                setCriticitaSelezionata(item);
+
+                setTimeout(() => {
+                  document.getElementById("inputFoto")?.click();
+                }, 150);
+              }}
             >
               {selezionata ? "✓ " : ""}
               {item}
@@ -686,6 +692,7 @@ rilieviAmbienteOrdinati.forEach((rilievo) => {
         <label style={styles.bigButton}>
           📷 Aggiungi foto
           <input
+            id="inputFoto"
             type="file"
             accept="image/*"
             capture="environment"
