@@ -793,8 +793,16 @@ function App() {
         ))}
       </div>
 
-      <div style={styles.grid}>
-        {ambienti.map((ambiente) => (
+      <div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "10px",
+    marginTop: "20px",
+    width: "100%",
+  }}
+>
+  {ambienti.map((ambiente) => (
           <button key={ambiente} style={styles.environmentButton} onClick={() => apriAmbiente(ambiente)}>
             {ambiente}
           </button>
