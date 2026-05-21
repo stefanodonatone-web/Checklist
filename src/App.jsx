@@ -3,6 +3,9 @@ import jsPDF from "jspdf";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
+const DB_NAME = "ConteaAppDB";
+const STORE_NAME = "foto";
+
 const DATI_CONDOMINIO_DEFAULT = {
   indirizzo: "",
   anno: "",
@@ -24,9 +27,63 @@ const PRESENZE = [
   { key: "centraleTermica", label: "Centrale termica" },
 ];
 
+function apriDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: "id" });
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function salvaFotoDB(blob) {
+  const db = await apriDB();
+  const id = crypto.randomUUID();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).put({ id, blob });
+
+    tx.oncomplete = () => resolve(id);
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function leggiFotoDB(id) {
+  const db = await apriDB();
+
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const req = tx.objectStore(STORE_NAME).get(id);
+
+    req.onsuccess = () => resolve(req.result?.blob || null);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function cancellaFotoDB(id) {
+  if (!id) return;
+
+  const db = await apriDB();
+
+  return new Promise((resolve) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    tx.objectStore(STORE_NAME).delete(id);
+    tx.oncomplete = () => resolve();
+  });
+}
+
 function App() {
   const [ambienteSelezionato, setAmbienteSelezionato] = useState(null);
-  const [foto, setFoto] = useState(null);
+  const [fotoBlob, setFotoBlob] = useState(null);
+  const [fotoPreview, setFotoPreview] = useState(null);
   const [riferimento, setRiferimento] = useState("");
   const [criticitaSelezionate, setCriticitaSelezionate] = useState([]);
   const [nota, setNota] = useState("");
@@ -56,11 +113,8 @@ function App() {
   }, [datiCondominio]);
 
   useEffect(() => {
-    try {
-      localStorage.setItem("rilieviSopralluogo", JSON.stringify(rilievi));
-    } catch {
-      alert("Memoria piena: elimina qualche rilievo o esporta le foto.");
-    }
+    const rilieviLeggeri = rilievi.map(({ foto, ...resto }) => resto);
+    localStorage.setItem("rilieviSopralluogo", JSON.stringify(rilieviLeggeri));
   }, [rilievi]);
 
   const ambienti = [
@@ -208,7 +262,11 @@ function App() {
           const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0, width, height);
 
-          resolve(canvas.toDataURL("image/jpeg", 0.65));
+          canvas.toBlob(
+            (blob) => resolve(blob),
+            "image/jpeg",
+            0.65
+          );
         };
 
         img.src = event.target.result;
@@ -222,13 +280,17 @@ function App() {
     const file = event.target.files[0];
     if (!file) return;
 
-    const fotoCompressa = await comprimiFoto(file);
-    setFoto(fotoCompressa);
+    const blob = await comprimiFoto(file);
+    setFotoBlob(blob);
+
+    const previewUrl = URL.createObjectURL(blob);
+    setFotoPreview(previewUrl);
   }
 
   function apriAmbiente(ambiente) {
     setAmbienteSelezionato(ambiente);
-    setFoto(null);
+    setFotoBlob(null);
+    setFotoPreview(null);
     setRiferimento("");
     setCriticitaSelezionate([]);
     setNota("");
@@ -242,14 +304,20 @@ function App() {
     }
   }
 
-  function salvaRilievo() {
+  async function salvaRilievo() {
+    let fotoId = null;
+
+    if (fotoBlob) {
+      fotoId = await salvaFotoDB(fotoBlob);
+    }
+
     const nuovoRilievo = {
       ambiente: ambienteSelezionato,
       ambientePdf: nomePulito(ambienteSelezionato),
       riferimento,
       criticita: criticitaSelezionate,
       nota,
-      foto,
+      fotoId,
       dataOra: new Date().toLocaleString("it-IT"),
     };
 
@@ -257,7 +325,8 @@ function App() {
     alert("Rilievo salvato!");
 
     setAmbienteSelezionato(null);
-    setFoto(null);
+    setFotoBlob(null);
+    setFotoPreview(null);
     setRiferimento("");
     setCriticitaSelezionate([]);
     setNota("");
@@ -328,7 +397,7 @@ function App() {
   }
 
   async function esportaFotoZip() {
-    const rilieviConFoto = rilievi.filter((r) => r.foto);
+    const rilieviConFoto = rilievi.filter((r) => r.fotoId);
 
     if (rilieviConFoto.length === 0) {
       alert("Non ci sono foto da esportare.");
@@ -339,8 +408,9 @@ function App() {
 
     for (let i = 0; i < rilieviConFoto.length; i++) {
       const rilievo = rilieviConFoto[i];
-      const response = await fetch(rilievo.foto);
-      const blob = await response.blob();
+      const blob = await leggiFotoDB(rilievo.fotoId);
+
+      if (!blob) continue;
 
       const numero = String(i + 1).padStart(2, "0");
       const ambiente = nomeFileSicuro(rilievo.ambientePdf || rilievo.ambiente);
@@ -354,9 +424,16 @@ function App() {
     saveAs(contenuto, "foto-sopralluogo.zip");
   }
 
-  function cancellaTutto() {
+  async function cancellaTutto() {
     const conferma = window.confirm("Vuoi cancellare tutti i rilievi?");
     if (!conferma) return;
+
+    for (const rilievo of rilievi) {
+      if (rilievo.fotoId) {
+        await cancellaFotoDB(rilievo.fotoId);
+      }
+    }
+
     setRilievi([]);
     localStorage.removeItem("rilieviSopralluogo");
   }
@@ -364,7 +441,11 @@ function App() {
   function resetEmergenza() {
     localStorage.removeItem("rilieviSopralluogo");
     localStorage.removeItem("datiCondominio");
-    window.location.reload();
+
+    const deleteRequest = indexedDB.deleteDatabase(DB_NAME);
+    deleteRequest.onsuccess = () => window.location.reload();
+    deleteRequest.onerror = () => window.location.reload();
+    deleteRequest.onblocked = () => window.location.reload();
   }
 
   if (ambienteSelezionato) {
@@ -389,7 +470,7 @@ function App() {
           />
         </label>
 
-        {foto && <img src={foto} alt="Foto rilievo" style={styles.preview} />}
+        {fotoPreview && <img src={fotoPreview} alt="Foto rilievo" style={styles.preview} />}
 
         <input
           style={styles.input}
@@ -436,7 +517,7 @@ function App() {
 
   return (
     <div style={styles.container}>
-      <h1 style={{ textAlign: "center" }}>Checklist Sopralluogo</h1>
+      <h1 style={{ textAlign: "center" }}>Checklist Sopralluogo TEST</h1>
 
       <div style={styles.card}>
         <h2>Dati Condominio</h2>
@@ -545,7 +626,7 @@ function App() {
             <strong>Data/Ora:</strong> {rilievo.dataOra}
           </p>
           <p>
-            <strong>Foto:</strong> {rilievo.foto ? "presente" : "assente"}
+            <strong>Foto:</strong> {rilievo.fotoId ? "presente" : "assente"}
           </p>
         </div>
       ))}
