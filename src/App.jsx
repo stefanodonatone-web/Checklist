@@ -480,17 +480,52 @@ function App() {
       fotoIds.push(id);
     }
 
-    const nuovoRilievo = {
-      ambiente: ambienteSelezionato,
-      ambientePdf: nomePulito(ambienteSelezionato),
-      riferimento,
-      criticita: criticitaSelezionata,
-      nota,
-      fotoIds,
-      dataOra: new Date().toLocaleString("it-IT"),
-    };
+    const indiceEsistente = rilievi.findIndex(
+      (r) =>
+        r.ambiente === ambienteSelezionato &&
+        testoCriticita(r) === criticitaSelezionata
+    );
 
-    setRilievi([...rilievi, nuovoRilievo]);
+    if (indiceEsistente !== -1) {
+      const rilieviAggiornati = [...rilievi];
+      const rilievoEsistente = { ...rilieviAggiornati[indiceEsistente] };
+
+      rilievoEsistente.fotoIds = [
+        ...getFotoIds(rilievoEsistente),
+        ...fotoIds,
+      ];
+
+      const riferimentiEsistenti = rilievoEsistente.riferimento
+        ? rilievoEsistente.riferimento.split(" | ")
+        : [];
+
+      if (riferimento && !riferimentiEsistenti.includes(riferimento)) {
+        riferimentiEsistenti.push(riferimento);
+      }
+
+      rilievoEsistente.riferimento = riferimentiEsistenti.join(" | ");
+
+      if (nota) {
+        rilievoEsistente.nota = rilievoEsistente.nota
+          ? rilievoEsistente.nota + "\n" + nota
+          : nota;
+      }
+
+      rilieviAggiornati[indiceEsistente] = rilievoEsistente;
+      setRilievi(rilieviAggiornati);
+    } else {
+      const nuovoRilievo = {
+        ambiente: ambienteSelezionato,
+        ambientePdf: nomePulito(ambienteSelezionato),
+        riferimento,
+        criticita: criticitaSelezionata,
+        nota,
+        fotoIds,
+        dataOra: new Date().toLocaleString("it-IT"),
+      };
+
+      setRilievi([...rilievi, nuovoRilievo]);
+    }
     alert("Rilievo salvato!");
     pulisciFormRilievo();
   }
