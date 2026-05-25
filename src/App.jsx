@@ -725,7 +725,13 @@ function App() {
                   color: selezionata ? "white" : "black",
                   fontWeight: selezionata ? "bold" : "normal",
                 }}
-                onClick={() => setCriticitaSelezionata(item)}
+                onClick={() => {
+                  setCriticitaSelezionata(item);
+
+                  setTimeout(() => {
+                    document.getElementById("inputFoto")?.click();
+                  }, 150);
+                }}
               >
                 {selezionata ? "✓ " : ""}
                 {item}
