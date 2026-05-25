@@ -162,20 +162,24 @@ function App() {
         "VASI DAVANZALI",
       ],
     },
-    "🧺 Locale lavatoio": [
-      "Altezza ridotta/filo altezza uomo",
-      "Antenna divelta a terra",
-      "Condizioni malsane",
-      "Crepe",
-      "Dislivello/gradino non segnalato",
-      "Infiltrazioni/distacco intonaco",
-      "Materiale accatastato",
-      "Pavimento scivoloso",
-      "Pavimentazione sconnessa",
-      "Plafoniere divelte",
-      "Scatole derivazione aperte",
-      "Altro",
-    ],
+    "🧺 Locale lavatoio": {
+  principali: [
+    "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+    "DISLIVELLO/GRADINO NON SEGNALATO",
+    "INFILTRAZIONI/DISTACCO INTONACO",
+    "MATERIALE ACCATASTATO",
+    "PLAFONIERE DIVELTE",
+    "SCATOLE DER. APERTE",
+  ],
+
+  altre: [
+    "ANTENNA DIVELTA A TERRA",
+    "CONDIZIONI MALSANE",
+    "CREPE",
+    "PAVIMENTO SCIVOLOSO",
+    "PAVIMENTAZIONE SCONNESSA",
+  ],
+},
     "🏚️ Soffitte": [
       "Altezza ridotta/filo altezza uomo",
       "Condizioni malsane",
