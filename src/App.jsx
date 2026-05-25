@@ -102,6 +102,7 @@ function App() {
   const [fotoPreviewList, setFotoPreviewList] = useState([]);
   const [riferimento, setRiferimento] = useState("");
   const [criticitaSelezionata, setCriticitaSelezionata] = useState("");
+  const [showExtraCriticita, setShowExtraCriticita] = useState(false);
   const [nota, setNota] = useState("");
   const [showDati, setShowDati] = useState(true);
 
@@ -190,25 +191,29 @@ function App() {
       "Parapetto scalabile",
       "Altro",
     ],
-    "🏢 Vano scala condominiale": [
-      "Altezza ridotta/filo altezza uomo",
-      "Assenza parapetto",
-      "Assenza corrimano",
-      "Crepe",
-      "Dislivello/gradino non segnalato",
-      "Gradino rotto",
-      "Guano piccioni",
-      "Infiltrazioni/distacco intonaco",
-      "Infissi vetusti/vetri danneggiati",
-      "Materiale accatastato",
-      "Parapetto < 1m",
-      "Parapetto scalabile",
-      "Passaggi ristretti",
-      "Pavimento scivoloso",
-      "Pavimentazione sconnessa",
-      "Plafoniere divelte",
-      "Altro",
-    ],
+    "Vano scala condominiale": {
+      principali: [
+        "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+        "ASSENZA CORRIMANO",
+        "GRADINO ROTTO",
+        "INFILTRAZIONI/DISTACCO INTONACO",
+        "INFISSI VETUSTI/VETRI DANNEGGIATI",
+        "MATERIALE ACCATASTATO",
+        "PARAPETTO <1m",
+        "PASSAGGI RISTRETTI",
+        "PLAFONIERE DIVELTE",
+      ],
+
+      altre: [
+        "ASSENZA PARAPETTO",
+        "CREPE",
+        "DISLIVELLO/GRADINO NON SEGNALATO",
+        "GUANO PICCIONE",
+        "PARAPETTO SCALABILE",
+        "PAVIMENTO SCIVOLOSO",
+        "PAVIMENTAZIONE SCONNESSA",
+      ],
+    },
     "🛗 Impianto ascensore": [
       "Assenza cartellonistica",
       "Dislivello cabina/piano",
@@ -693,7 +698,14 @@ function App() {
   }
 
   if (ambienteSelezionato) {
-    const criticitaRapide = criticitaPerAmbiente[ambienteSelezionato] || [];
+    const criticitaData =
+      criticitaPerAmbiente[ambienteSelezionato] || {};
+
+    const criticitaRapide =
+      criticitaData.principali || criticitaData || [];
+
+    const criticitaExtra =
+      criticitaData.altre || [];
 
     return (
       <div style={styles.container}>
@@ -739,6 +751,53 @@ function App() {
             );
           })}
         </div>
+
+        {criticitaExtra.length > 0 && (
+          <div style={{ marginTop: "15px" }}>
+            <button
+              style={styles.resetButton}
+              onClick={() => setShowExtraCriticita(!showExtraCriticita)}
+            >
+              {showExtraCriticita
+                ? "▲ Nascondi altre criticità"
+                : "▼ Altre criticità"}
+            </button>
+
+            {showExtraCriticita && (
+              <div style={styles.criticitaGrid}>
+                {criticitaExtra.map((item) => {
+                  const selezionata = criticitaSelezionata === item;
+
+                  return (
+                    <button
+                      key={item}
+                      style={{
+                        ...styles.warningButton,
+                        backgroundColor: selezionata
+                          ? "#d32f2f"
+                          : "#eeeeee",
+                        color: selezionata ? "white" : "black",
+                        fontWeight: selezionata ? "bold" : "normal",
+                      }}
+                      onClick={() => {
+                        setCriticitaSelezionata(item);
+
+                        setTimeout(() => {
+                          document
+                            .getElementById("inputFoto")
+                            ?.click();
+                        }, 150);
+                      }}
+                    >
+                      {selezionata ? "✓ " : ""}
+                      {item}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         <label style={styles.bigButton}>
           📷 Aggiungi foto
