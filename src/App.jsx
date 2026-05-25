@@ -180,19 +180,23 @@ function App() {
     "PAVIMENTAZIONE SCONNESSA",
   ],
 },
-    "🏚️ Soffitte": [
-      "Altezza ridotta/filo altezza uomo",
-      "Condizioni malsane",
-      "Crepe",
-      "Dislivello/gradino non segnalato",
-      "Infiltrazioni/distacco intonaco",
-      "Materiale accatastato",
-      "Pavimento scivoloso",
-      "Pavimentazione sconnessa",
-      "Plafoniere divelte",
-      "Scatole derivazione aperte",
-      "Altro",
-    ],
+    "🏚️ Soffitte": {
+  principali: [
+    "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+    "DISLIVELLO/GRADINO NON SEGNALATO",
+    "INFILTRAZIONI/DISTACCO INTONACO",
+    "MATERIALE ACCATASTATO",
+    "PLAFONIERE DIVELTE",
+    "SCATOLE DER. APERTE",
+  ],
+
+  altre: [
+    "CONDIZIONI MALSANE",
+    "CREPE",
+    "PAVIMENTO SCIVOLOSO",
+    "PAVIMENTAZIONE SCONNESSA",
+  ],
+},
     "🪟 Finestre condominiali": [
       "Infissi vetusti/vetri danneggiati",
       "Parapetto < 1m",
