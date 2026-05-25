@@ -1084,12 +1084,12 @@ const styles = {
   },
   warningButton: {
   width: "100%",
-  minHeight: "68px",
-  padding: "8px 6px",
-  fontSize: "13px",
-  lineHeight: "1.1",
+  minHeight: "unset",
+  padding: "6px 4px",
+  fontSize: "12px",
+  lineHeight: "1",
   whiteSpace: "normal",
-  borderRadius: "12px",
+  borderRadius: "10px",
   border: "none",
 },
   saveButton: {
