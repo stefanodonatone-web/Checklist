@@ -468,6 +468,19 @@ function App() {
     pulisciFormRilievo();
   }
 
+  function riapriRilievo(rilievo) {
+    setAmbienteSelezionato(rilievo.ambiente);
+    setCriticitaSelezionata(testoCriticita(rilievo));
+    setRiferimento("");
+    setNota("");
+    setFotoBlobList([]);
+    setFotoPreviewList([]);
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+  }
+
   async function salvaRilievo() {
     if (!criticitaSelezionata) {
       alert("Seleziona una criticità prima di salvare.");
@@ -776,43 +789,43 @@ function App() {
       <h1 style={{ textAlign: "center" }}>CHECKLIST TEST MODIFICATA</h1>
 
       <div style={styles.card}>
-  <h2
-    style={{ cursor: "pointer" }}
-    onClick={() => setShowDati(!showDati)}
-  >
-    {showDati ? "▼" : "▶"} Dati Condominio
-  </h2>
-  {showDati && (
-    <>
+        <h2
+          style={{ cursor: "pointer" }}
+          onClick={() => setShowDati(!showDati)}
+        >
+          {showDati ? "▼" : "▶"} Dati Condominio
+        </h2>
+        {showDati && (
+          <>
 
-        <input style={styles.input} placeholder="Indirizzo" value={datiCondominio.indirizzo} onChange={(e) => setDatiCondominio({ ...datiCondominio, indirizzo: e.target.value })} />
-        <input style={styles.input} placeholder="Anno costruzione" value={datiCondominio.anno} onChange={(e) => setDatiCondominio({ ...datiCondominio, anno: e.target.value })} />
-        <input style={styles.input} placeholder="Corpi fabbrica" value={datiCondominio.corpiFabbrica} onChange={(e) => setDatiCondominio({ ...datiCondominio, corpiFabbrica: e.target.value })} />
-        <input style={styles.input} placeholder="Vani scala" value={datiCondominio.vaniScala} onChange={(e) => setDatiCondominio({ ...datiCondominio, vaniScala: e.target.value })} />
-        <input style={styles.input} placeholder="Unità immobiliari" value={datiCondominio.unitaImmobiliari} onChange={(e) => setDatiCondominio({ ...datiCondominio, unitaImmobiliari: e.target.value })} />
+            <input style={styles.input} placeholder="Indirizzo" value={datiCondominio.indirizzo} onChange={(e) => setDatiCondominio({ ...datiCondominio, indirizzo: e.target.value })} />
+            <input style={styles.input} placeholder="Anno costruzione" value={datiCondominio.anno} onChange={(e) => setDatiCondominio({ ...datiCondominio, anno: e.target.value })} />
+            <input style={styles.input} placeholder="Corpi fabbrica" value={datiCondominio.corpiFabbrica} onChange={(e) => setDatiCondominio({ ...datiCondominio, corpiFabbrica: e.target.value })} />
+            <input style={styles.input} placeholder="Vani scala" value={datiCondominio.vaniScala} onChange={(e) => setDatiCondominio({ ...datiCondominio, vaniScala: e.target.value })} />
+            <input style={styles.input} placeholder="Unità immobiliari" value={datiCondominio.unitaImmobiliari} onChange={(e) => setDatiCondominio({ ...datiCondominio, unitaImmobiliari: e.target.value })} />
 
-        <h3>Presenze</h3>
+            <h3>Presenze</h3>
 
-        {PRESENZE.map((p) => (
-          <label key={p.key} style={styles.checkboxLabel}>
-            <input type="checkbox" checked={datiCondominio[p.key] === true} onChange={(e) => setDatiCondominio({ ...datiCondominio, [p.key]: e.target.checked })} />
-            {p.label}
-          </label>
-        ))}
+            {PRESENZE.map((p) => (
+              <label key={p.key} style={styles.checkboxLabel}>
+                <input type="checkbox" checked={datiCondominio[p.key] === true} onChange={(e) => setDatiCondominio({ ...datiCondominio, [p.key]: e.target.checked })} />
+                {p.label}
+              </label>
+            ))}
           </>
-)}
+        )}
       </div>
 
       <div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "10px",
-    marginTop: "20px",
-    width: "100%",
-  }}
->
-  {ambienti.map((ambiente) => (
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+          gap: "10px",
+          marginTop: "20px",
+          width: "100%",
+        }}
+      >
+        {ambienti.map((ambiente) => (
           <button key={ambiente} style={styles.environmentButton} onClick={() => apriAmbiente(ambiente)}>
             {ambiente}
           </button>
@@ -844,7 +857,11 @@ function App() {
       </button>
 
       {rilievi.map((rilievo, index) => (
-        <div key={index} style={styles.card}>
+        <div
+          key={index}
+          style={{ ...styles.card, cursor: "pointer" }}
+          onClick={() => riapriRilievo(rilievo)}
+        >
           <h3>
             #{index + 1} - {rilievo.ambiente}
           </h3>
@@ -862,6 +879,9 @@ function App() {
           </p>
           <p>
             <strong>Foto:</strong> {getFotoIds(rilievo).length}
+          </p>
+          <p style={{ fontSize: "14px", opacity: 0.7 }}>
+            Tocca per aggiungere foto o riferimenti
           </p>
         </div>
       ))}
