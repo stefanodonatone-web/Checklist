@@ -191,7 +191,7 @@ function App() {
       "Parapetto scalabile",
       "Altro",
     ],
-    "Vano scala condominiale": {
+    "🏢 Vano scala condominiale": {
       principali: [
         "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
         "ASSENZA CORRIMANO",
@@ -701,11 +701,13 @@ function App() {
     const criticitaData =
       criticitaPerAmbiente[ambienteSelezionato] || {};
 
-    const criticitaRapide =
-      criticitaData.principali || criticitaData || [];
+    const criticitaRapide = Array.isArray(criticitaData)
+      ? criticitaData
+      : criticitaData.principali || [];
 
-    const criticitaExtra =
-      criticitaData.altre || [];
+    const criticitaExtra = Array.isArray(criticitaData)
+      ? []
+      : criticitaData.altre || [];
 
     return (
       <div style={styles.container}>
