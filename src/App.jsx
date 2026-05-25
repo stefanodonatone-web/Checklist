@@ -1085,9 +1085,9 @@ const styles = {
   warningButton: {
   width: "100%",
   minHeight: "unset",
-  padding: "6px 4px",
-  fontSize: "12px",
-  lineHeight: "1",
+  padding: "8px 6px",
+  fontSize: "13px",
+  lineHeight: "1.1",
   whiteSpace: "normal",
   borderRadius: "10px",
   border: "none",
