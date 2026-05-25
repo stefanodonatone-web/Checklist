@@ -712,31 +712,27 @@ function App() {
 
         <h2>Criticità</h2>
 
-        {criticitaRapide.map((item) => {
-          const selezionata = criticitaSelezionata === item;
+        <div style={styles.criticitaGrid}>
+          {criticitaRapide.map((item) => {
+            const selezionata = criticitaSelezionata === item;
 
-          return (
-            <button
-              key={item}
-              style={{
-                ...styles.warningButton,
-                backgroundColor: selezionata ? "#d32f2f" : "#eeeeee",
-                color: selezionata ? "white" : "black",
-                fontWeight: selezionata ? "bold" : "normal",
-              }}
-              onClick={() => {
-                setCriticitaSelezionata(item);
-
-                setTimeout(() => {
-                  document.getElementById("inputFoto")?.click();
-                }, 150);
-              }}
-            >
-              {selezionata ? "✓ " : ""}
-              {item}
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={item}
+                style={{
+                  ...styles.warningButton,
+                  backgroundColor: selezionata ? "#d32f2f" : "#eeeeee",
+                  color: selezionata ? "white" : "black",
+                  fontWeight: selezionata ? "bold" : "normal",
+                }}
+                onClick={() => setCriticitaSelezionata(item)}
+              >
+                {selezionata ? "✓ " : ""}
+                {item}
+              </button>
+            );
+          })}
+        </div>
 
         <label style={styles.bigButton}>
           📷 Aggiungi foto
@@ -903,6 +899,12 @@ const styles = {
     marginTop: "20px",
     width: "100%",
   },
+  criticitaGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "10px",
+    marginTop: "15px",
+  },
   environmentButton: {
     width: "100%",
     minHeight: "90px",
@@ -987,11 +989,13 @@ const styles = {
   },
   warningButton: {
     width: "100%",
-    padding: "18px",
-    fontSize: "18px",
+    minHeight: "82px",
+    padding: "12px 8px",
+    fontSize: "14px",
+    lineHeight: "1.2",
+    whiteSpace: "normal",
     borderRadius: "12px",
     border: "none",
-    marginBottom: "10px",
   },
   saveButton: {
     width: "100%",
