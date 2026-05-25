@@ -137,27 +137,31 @@ function App() {
   const ambienti = AMBIENTI_ORDINE_GESTIONALE;
 
   const criticitaPerAmbiente = {
-    "🏠 Terrazza condominiale": [
-      "Accesso difficoltoso",
-      "Altezza ridotta/filo altezza uomo",
-      "Antenna divelta a terra",
-      "Antenna pericolante",
-      "Assenza parapetto",
-      "Condizioni malsane",
-      "Crepe",
-      "Degrado intonaco esterno",
-      "Dislivello/gradino non segnalato",
-      "Guano piccioni",
-      "Materiale accatastato",
-      "Parapetto < 1m",
-      "Parapetto scalabile",
-      "Pavimento scivoloso",
-      "Pavimentazione sconnessa",
-      "Plafoniera divelta",
-      "Scala accesso torrino non conforme",
-      "Vasi davanzali",
-      "Altro",
-    ],
+    "🏢 Terrazza condominiale": {
+      principali: [
+        "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+        "ANTENNA DIVELTA A TERRA",
+        "ANTENNA PERICOLANTE",
+        "ASSENZA PARAPETTO",
+        "DEGRADO INTONACO ESTERNO",
+        "DISLIVELLO/GRADINO NON SEGNALATO",
+        "MATERIALE ACCATASTATO",
+        "PARAPETTO <1m",
+        "PARAPETTO SCALABILE",
+        "PLAFONIERA DIVELTA",
+        "SCALA ACCESSO TORRINO NON CONF.",
+      ],
+
+      altre: [
+        "ACCESSO DIFFICOLTOSO",
+        "CONDIZIONI MALSANE",
+        "CREPE",
+        "GUANO PICCIONE",
+        "PAVIMENTO SCIVOLOSO",
+        "PAVIMENTAZIONE SCONNESSA",
+        "VASI DAVANZALI",
+      ],
+    },
     "🧺 Locale lavatoio": [
       "Altezza ridotta/filo altezza uomo",
       "Antenna divelta a terra",
