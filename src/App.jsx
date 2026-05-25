@@ -137,7 +137,7 @@ function App() {
   const ambienti = AMBIENTI_ORDINE_GESTIONALE;
 
   const criticitaPerAmbiente = {
-    "🏢 Terrazza condominiale": {
+    "🏠 Terrazza condominiale": {
       principali: [
         "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
         "ANTENNA DIVELTA A TERRA",
