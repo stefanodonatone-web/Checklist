@@ -939,11 +939,6 @@ function App() {
           ),
         ];
 
-        const fotoTotali = trovati.reduce(
-          (totale, r) => totale + getFotoIds(r).length,
-          0
-        );
-
         if (presente) {
   doc.setTextColor(220, 0, 0);
   doc.setFontSize(13);
@@ -977,8 +972,6 @@ function App() {
             y += rifText.length * 5;
           }
 
-          doc.text(`Foto: ${fotoTotali}`, 32, y);
-          y += 6;
         }
 
         y += 2;
