@@ -96,6 +96,215 @@ async function cancellaFotoDB(id) {
   });
 }
 
+const CHECKLIST_GESTIONALE = [
+  {
+    titolo: "TERRAZZA CONDOMINIALE",
+    voci: [
+      "ACCESSO DIFFICOLTOSO",
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "ANTENNA DIVELTA A TERRA",
+      "ANTENNA PERICOLANTE",
+      "ASSENZA PARAPETTO",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DEGRADO INTONACO ESTERNO",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "GUANO PICCIONE",
+      "MATERIALE ACCATASTATO",
+      "PARAPETTO < 1m",
+      "PARAPETTO SCALABILE",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERA DIVELTA",
+      "SCALA ACCESSO TORRINO NON CONF.",
+      "VASI DAVANZALI",
+    ],
+  },
+  {
+    titolo: "LOCALE LAVATOIO",
+    voci: [
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "ANTENNA DIVELTA A TERRA",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "SCATOLE DER. APERTE",
+    ],
+  },
+  {
+    titolo: "SOFFITTE",
+    voci: [
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "SCATOLE DER. APERTE",
+    ],
+  },
+  {
+    titolo: "FINESTRE CONDOMINIALI",
+    voci: [
+      "INFISSI VETUSTI/VETRI DANNEGGIATI",
+      "PARAPETTO < 1m",
+      "PARAPETTO SCALABILE",
+    ],
+  },
+  {
+    titolo: "VANO SCALA CONDOMINIALE",
+    voci: [
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "ASSENZA PARAPETTO",
+      "ASSENZA CORRIMANO",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "GRADINO ROTTO",
+      "GUANO PICCIONE",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "INFISSI VETUSTI/VETRI DANNEGGIATI",
+      "MATERIALE ACCATASTATO",
+      "PARAPETTO < 1m",
+      "PARAPETTO SCALABILE",
+      "PASSAGGI RISTRETTI",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+    ],
+  },
+  {
+    titolo: "IMPIANTO ASCENSORE",
+    voci: [
+      "ASSENZA DI CARTELLONISTICA",
+      "DISLIVELLO",
+      "SCATOLA CHIAVE MANOMESSA",
+      "SCAT PULS SGANCIO EL ROTTA",
+    ],
+  },
+  {
+    titolo: "CONTATORI ELETTRICI",
+    voci: [
+      "ASSENZA DI CARTELLONISTICA",
+      "ASSENZA SEGNALE RISCHIO ELETTRICO",
+      "CONTATORI NON PROTETTI / NON SEGREGATI",
+      "SCATOLE DER. APERTE",
+    ],
+  },
+  {
+    titolo: "CANTINE",
+    voci: [
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "ASSENZA CORRIMANO",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "PRESENZA FAV",
+      "SCATOLE DER. APERTE",
+    ],
+  },
+  {
+    titolo: "CHIOSTRINA CONDOMINIALE",
+    voci: [
+      "ACCESSO DIFFICOLTOSO",
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "PRESENZA FAV",
+      "SCATOLE DER. APERTE",
+      "VASI DAVANZALI",
+    ],
+  },
+  {
+    titolo: "AUTORIMESSA",
+    voci: [
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "ASSENZA CORRIMANO",
+      "ASSENZA DI CARTELLONISTICA",
+      "ASSENZA DI PROTEZIONE",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "INFISSI VETUSTI/VETRI DANNEGGIATI",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "PERCORSI PROMISCUI AUTO/PERS",
+      "PRESENZA FAV",
+      "PULS. SGANCIO CARTELLONISTICA",
+      "SCALA DANNEGGIATA",
+      "SCATOLE DER. APERTE",
+    ],
+  },
+  {
+    titolo: "FABBRICATO ESTERNO",
+    voci: [
+      "CANTIERE PRESENTE",
+      "CEDIMENTO MURO DI SOSTEGNO",
+      "CREPE SU PARETI",
+      "DEGRADO INTONACO ESTERNO",
+      "MESSA IN SICUREZZA",
+      "VASI SU DAVANZALE",
+    ],
+  },
+  {
+    titolo: "CALDAIA CONDOMINIALE",
+    voci: [
+      "ASSENZA DI CORRIMANO",
+      "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+      "CARTELLO VALVOLA E INTERRUTORE GENERALE",
+      "CONDIZIONI MALSANE",
+      "CREPE",
+      "DISLIVELLO/GRADINO NON SEGNALATO",
+      "INFILTRAZIONI/DISTACCO INTONACO",
+      "MATERIALE ACCATASTATO",
+      "PAVIMENTO SCIVOLOSO",
+      "PAVIMENTAZIONE SCONNESSA",
+      "PLAFONIERE DIVELTE",
+      "PRESENZA FAV",
+      "SCATOLE DER. APERTE",
+      "TUBAZIONE GAS (GIALLO)",
+    ],
+  },
+  {
+    titolo: "DISPOSITIVI E IMPIANTI ANTINCENDIO",
+    voci: [
+      "ASSENZA ESTINTORE",
+      "MANUTENZIONE SCADUTA",
+      "PORTA TAGLIAFUOCO NON FUNZIONANTE",
+      "SCARSA VISIBILITA'",
+      "TUBAZIONE IDRANTE (ROSSA)",
+    ],
+  },
+  {
+    titolo: "AMIANTO",
+    voci: [
+      "PRESUNTA PRESENZA DI AMIANTO",
+      "PRESENZA CERTIFICATA DI AMIANTO",
+    ],
+  },
+];
+
 function App() {
   const [ambienteSelezionato, setAmbienteSelezionato] = useState(null);
   const [fotoBlobList, setFotoBlobList] = useState([]);
@@ -264,50 +473,50 @@ function App() {
       ],
     },
     "🏙️ Chiostrina condominiale": {
-  principali: [
-    "ACCESSO DIFFICOLTOSO",
-    "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
-    "DISLIVELLO/GRADINO NON SEGNALATO",
-    "MATERIALE ACCATASTATO",
-    "PAVIMENTO SCIVOLOSO",
-    "PAVIMENTAZIONE SCONNESSA",
-    "VASI DAVANZALI",
-  ],
+      principali: [
+        "ACCESSO DIFFICOLTOSO",
+        "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+        "DISLIVELLO/GRADINO NON SEGNALATO",
+        "MATERIALE ACCATASTATO",
+        "PAVIMENTO SCIVOLOSO",
+        "PAVIMENTAZIONE SCONNESSA",
+        "VASI DAVANZALI",
+      ],
 
-  altre: [
-    "CONDIZIONI MALSANE",
-    "CREPE",
-    "INFILTRAZIONI/DISTACCO INTONACO",
-    "PLAFONIERE DIVELTE",
-    "PRESENZA FAV",
-    "SCATOLE DER. APERTE",
-  ],
-},
+      altre: [
+        "CONDIZIONI MALSANE",
+        "CREPE",
+        "INFILTRAZIONI/DISTACCO INTONACO",
+        "PLAFONIERE DIVELTE",
+        "PRESENZA FAV",
+        "SCATOLE DER. APERTE",
+      ],
+    },
     "🚗 Autorimessa": {
-  principali: [
-    "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
-    "ASSENZA DI CARTELLONISTICA",
-    "DISLIVELLO/GRADINO NON SEGNALATO",
-    "INFILTRAZIONI/DISTACCO INTONACO",
-    "MATERIALE ACCATASTATO",
-    "PAVIMENTAZIONE SCONNESSA",
-    "PLAFONIERE DIVELTE",
-    "PERCORSI PROMISCUI AUTO/PERS",
-    "PRESENZA FAV",
-    "PULS. SGANCIO CARTELLONISTICA",
-    "SCATOLE DER. APERTE",
-  ],
+      principali: [
+        "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+        "ASSENZA DI CARTELLONISTICA",
+        "DISLIVELLO/GRADINO NON SEGNALATO",
+        "INFILTRAZIONI/DISTACCO INTONACO",
+        "MATERIALE ACCATASTATO",
+        "PAVIMENTAZIONE SCONNESSA",
+        "PLAFONIERE DIVELTE",
+        "PERCORSI PROMISCUI AUTO/PERS",
+        "PRESENZA FAV",
+        "PULS. SGANCIO CARTELLONISTICA",
+        "SCATOLE DER. APERTE",
+      ],
 
-  altre: [
-    "ASSENZA CORRIMANO",
-    "ASSENZA DI PROTEZIONE",
-    "CONDIZIONI MALSANE",
-    "CREPE",
-    "INFISSI VETUSTI/VETRI DANNEGGIATI",
-    "PAVIMENTO SCIVOLOSO",
-    "SCALA DANNEGGIATA",
-  ],
-},
+      altre: [
+        "ASSENZA CORRIMANO",
+        "ASSENZA DI PROTEZIONE",
+        "CONDIZIONI MALSANE",
+        "CREPE",
+        "INFISSI VETUSTI/VETRI DANNEGGIATI",
+        "PAVIMENTO SCIVOLOSO",
+        "SCALA DANNEGGIATA",
+      ],
+    },
     "🧱 Fabbricato esterno": [
       "Cantiere presente",
       "Cedimento muro di sostegno",
@@ -319,26 +528,26 @@ function App() {
       "Altro",
     ],
     "🔥 Caldaia condominiale": {
-  principali: [
-    "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
-    "CARTELLO VALVOLA E INTERRUTORE GENERALE",
-    "DISLIVELLO/GRADINO NON SEGNALATO",
-    "INFILTRAZIONI/DISTACCO INTONACO",
-    "MATERIALE ACCATASTATO",
-    "PLAFONIERE DIVELTE",
-    "PRESENZA FAV",
-    "SCATOLE DER. APERTE",
-    "TUBAZIONE GAS (GIALLO)",
-  ],
+      principali: [
+        "ALTEZZA RIDOTTA/FILO ALTEZZA UOMO",
+        "CARTELLO VALVOLA E INTERRUTORE GENERALE",
+        "DISLIVELLO/GRADINO NON SEGNALATO",
+        "INFILTRAZIONI/DISTACCO INTONACO",
+        "MATERIALE ACCATASTATO",
+        "PLAFONIERE DIVELTE",
+        "PRESENZA FAV",
+        "SCATOLE DER. APERTE",
+        "TUBAZIONE GAS (GIALLO)",
+      ],
 
-  altre: [
-    "ASSENZA DI CORRIMANO",
-    "CONDIZIONI MALSANE",
-    "CREPE",
-    "PAVIMENTO SCIVOLOSO",
-    "PAVIMENTAZIONE SCONNESSA",
-  ],
-},
+      altre: [
+        "ASSENZA DI CORRIMANO",
+        "CONDIZIONI MALSANE",
+        "CREPE",
+        "PAVIMENTO SCIVOLOSO",
+        "PAVIMENTAZIONE SCONNESSA",
+      ],
+    },
     "🧯 Dispositivi e impianti antincendio": [
       "Assenza estintore",
       "Manutenzione scaduta",
@@ -667,6 +876,109 @@ function App() {
     doc.save("checklist-condominio.pdf");
   }
 
+  function normalizzaConfronto(testo) {
+    return String(testo || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toUpperCase()
+      .replace(/\s+/g, "")
+      .replace(/[.,'’()/\\-]/g, "")
+      .replace(/</g, "MINORE")
+      .replace(/>/g, "MAGGIORE");
+  }
+
+  function esportaPDFGestionale() {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Checklist formato gestionale", 20, 20);
+
+    let y = 35;
+
+    doc.setFontSize(10);
+    doc.text(`Indirizzo: ${datiCondominio.indirizzo || "-"}`, 20, y);
+    y += 7;
+
+    doc.text(`Data export: ${new Date().toLocaleString("it-IT")}`, 20, y);
+    y += 12;
+
+    CHECKLIST_GESTIONALE.forEach((sezione) => {
+      if (y > 250) {
+        doc.addPage();
+        y = 20;
+      }
+
+      doc.setFontSize(12);
+      doc.text(sezione.titolo, 20, y);
+      y += 8;
+
+      sezione.voci.forEach((voce) => {
+        const trovati = rilievi.filter((rilievo) => {
+          const ambienteRilievo = normalizzaConfronto(
+            rilievo.ambientePdf || rilievo.ambiente
+          );
+
+          const ambienteChecklist = normalizzaConfronto(sezione.titolo);
+          const criticitaRilievo = normalizzaConfronto(testoCriticita(rilievo));
+          const criticitaChecklist = normalizzaConfronto(voce);
+
+          return (
+            ambienteRilievo === ambienteChecklist &&
+            criticitaRilievo === criticitaChecklist
+          );
+        });
+
+        const presente = trovati.length > 0;
+
+        const riferimenti = [
+          ...new Set(
+            trovati
+              .flatMap((r) => String(r.riferimento || "").split(" | "))
+              .map((r) => r.trim())
+              .filter(Boolean)
+          ),
+        ];
+
+        const fotoTotali = trovati.reduce(
+          (totale, r) => totale + getFotoIds(r).length,
+          0
+        );
+
+        const riga = `${presente ? "[X]" : "[ ]"} ${voce}`;
+        const testoRiga = doc.splitTextToSize(riga, 175);
+
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+
+        doc.setFontSize(9);
+        doc.text(testoRiga, 24, y);
+        y += testoRiga.length * 5;
+
+        if (presente) {
+          if (riferimenti.length > 0) {
+            const rifText = doc.splitTextToSize(
+              `Rif: ${riferimenti.join(" | ")}`,
+              165
+            );
+            doc.text(rifText, 32, y);
+            y += rifText.length * 5;
+          }
+
+          doc.text(`Foto: ${fotoTotali}`, 32, y);
+          y += 6;
+        }
+
+        y += 2;
+      });
+
+      y += 5;
+    });
+
+    doc.save("checklist-formato-gestionale.pdf");
+  }
+
   async function esportaFotoZip() {
     const zip = new JSZip();
     let totaleFoto = 0;
@@ -929,6 +1241,10 @@ function App() {
             📄 Esporta PDF checklist
           </button>
 
+          <button style={styles.pdfButton} onClick={esportaPDFGestionale}>
+            📋 Esporta PDF formato gestionale
+          </button>
+
           <button style={styles.zipButton} onClick={esportaFotoZip}>
             📦 Esporta foto ZIP
           </button>
@@ -1001,18 +1317,18 @@ const styles = {
     marginTop: "15px",
   },
   environmentButton: {
-  width: "100%",
-  minHeight: "unset",
-  padding: "10px 6px",
-  fontSize: "13px",
-  lineHeight: "1.1",
-  whiteSpace: "normal",
-  borderRadius: "12px",
-  border: "none",
-  backgroundColor: "#1e88e5",
-  color: "white",
-  fontWeight: "bold",
-},
+    width: "100%",
+    minHeight: "unset",
+    padding: "10px 6px",
+    fontSize: "13px",
+    lineHeight: "1.1",
+    whiteSpace: "normal",
+    borderRadius: "12px",
+    border: "none",
+    backgroundColor: "#1e88e5",
+    color: "white",
+    fontWeight: "bold",
+  },
   backButton: {
     width: "100%",
     padding: "14px",
@@ -1083,15 +1399,15 @@ const styles = {
     marginBottom: "20px",
   },
   warningButton: {
-  width: "100%",
-  minHeight: "unset",
-  padding: "10px 8px",
-  fontSize: "13px",
-  lineHeight: "1.15",
-  whiteSpace: "normal",
-  borderRadius: "10px",
-  border: "none",
-},
+    width: "100%",
+    minHeight: "unset",
+    padding: "10px 8px",
+    fontSize: "13px",
+    lineHeight: "1.15",
+    whiteSpace: "normal",
+    borderRadius: "10px",
+    border: "none",
+  },
   saveButton: {
     width: "100%",
     padding: "22px",
