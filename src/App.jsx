@@ -1333,7 +1333,7 @@ const styles = {
     color: "white",
     fontWeight: "bold",
 
-    height: "86px",
+    minHeight: "86px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
