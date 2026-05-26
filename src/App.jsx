@@ -956,7 +956,7 @@ function App() {
   doc.text(voce, 32, y);
 } else {
   doc.setFontSize(11);
-  doc.text("□ " + voce, 24, y);
+  doc.text("[ ] " + voce, 24, y);
 }
 
         if (y > 270) {
