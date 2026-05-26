@@ -944,17 +944,28 @@ function App() {
           0
         );
 
-        const riga = `${presente ? "[X]" : "[ ]"} ${voce}`;
-        const testoRiga = doc.splitTextToSize(riga, 175);
+        if (presente) {
+  doc.setTextColor(220, 0, 0);
+  doc.setFontSize(13);
+
+  doc.text("X", 24, y);
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(11);
+
+  doc.text(voce, 32, y);
+} else {
+  doc.setFontSize(11);
+  doc.text("□ " + voce, 24, y);
+}
 
         if (y > 270) {
           doc.addPage();
           y = 20;
         }
 
-        doc.setFontSize(9);
-        doc.text(testoRiga, 24, y);
-        y += testoRiga.length * 5;
+        doc.setFontSize(11);
+        y += 6;
 
         if (presente) {
           if (riferimenti.length > 0) {
