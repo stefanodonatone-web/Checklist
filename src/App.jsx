@@ -940,19 +940,19 @@ function App() {
         ];
 
         if (presente) {
-  doc.setTextColor(220, 0, 0);
-  doc.setFontSize(13);
+          doc.setTextColor(220, 0, 0);
+          doc.setFontSize(13);
 
-  doc.text("X", 24, y);
+          doc.text("X", 24, y);
 
-  doc.setTextColor(0, 0, 0);
-  doc.setFontSize(11);
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(11);
 
-  doc.text(voce, 32, y);
-} else {
-  doc.setFontSize(11);
-  doc.text("[ ] " + voce, 24, y);
-}
+          doc.text(voce, 32, y);
+        } else {
+          doc.setFontSize(11);
+          doc.text("[ ] " + voce, 24, y);
+        }
 
         if (y > 270) {
           doc.addPage();
@@ -1332,6 +1332,12 @@ const styles = {
     backgroundColor: "#1e88e5",
     color: "white",
     fontWeight: "bold",
+
+    height: "86px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
   },
   backButton: {
     width: "100%",
